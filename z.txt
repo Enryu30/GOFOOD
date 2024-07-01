@@ -1,0 +1,35 @@
+Create  food delivery app.
+
+
+Lec1: Application made using react, rendered by browser on client machine.
+    - Back end server is created using node js, it uses express framework to create Api that interacts with the front end, it caters to the request send by the user and fetches data from the mongodb.
+    -To fetch data mongo db driver is used shit ilearnt mongoose.
+
+    How does mern stack work? It's a three tier architecture front ... using js and json to store key value pairs.
+
+    Mongodb: High vol data, no relational data,
+
+    Node js: Single threaded non 
+    blocking, asynchronous programming
+
+
+    Where to use NodeJs?->Backend services as APIs. I/O bounds application, single page application.
+
+      Where not to use NOdeJs? In cpu intensive tasks which requires calculations done by CPU.
+
+    Express JS: Framework, easy routing of requests based on http methods and urls, middlewares to respond to http request, allows to dynamically render html page based on passing arguments to templates   
+
+    React : SPA, User interfaces, reusable components, Reactrouter handle the front end routing.
+
+
+Lec2:     -setting up react app, 
+          -rafc react functional component type of snippet.
+          -Home navbar body footer
+          -Next chapter:
+              <a class="navbar-brand" href="/">Navbar</a>
+          when we click on navbar the whole page loads and we don't want that so we will use react routing in thhe next lec.
+
+                  I have done this before but not using react but using node. When i click on navbar it sends a request to the server but  if there is no server nothing would happen.
+                  If there is  a server and a get method is made for the home router then that thing will work.
+
+
