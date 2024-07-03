@@ -5,13 +5,23 @@ import {BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom';
+import { Login } from './screens/Login';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 
 function App() {
 
   return (
-    <>
-      <Home/>
-    </>
+    <Router>
+      <div>
+        <Routes>
+           <Route exact path="/" element = {<Home/>} />
+           <Route exact path="/login" element = {<Login/>} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
