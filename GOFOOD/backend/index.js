@@ -1,11 +1,25 @@
 const express = require('express');
 const app=express();
-app.use(express.json());
 const port = 5000;
 const mongoDB = require("./db");
 mongoDB();
 /* const model = require("./models/User");
  */
+
+app.use((req,res,next)=>{
+  res.setHeader("Access-Control-Allow-Origin","http://localhost:5173");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+
+  next();
+});
+
+//above thing to handle cors error, happens when we try to send data frontend=>vackend
+
+app.use(express.json());
+
 
 app.get('/',(req,res)=>{
   res.send('hello world');

@@ -8,6 +8,7 @@ import {BrowserRouter as Router,
 import { Login } from './screens/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { Signup } from './screens/Signup';
 
 
 
@@ -18,7 +19,9 @@ function App() {
       <div>
         <Routes>
            <Route exact path="/" element = {<Home/>} />
+           <Route exact path="/Signup" element = {<Signup/>} />
            <Route exact path="/login" element = {<Login/>} />
+
         </Routes>
       </div>
     </Router>
