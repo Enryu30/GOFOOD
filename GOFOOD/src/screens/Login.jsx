@@ -31,7 +31,10 @@ export const Login = () => {
     const json = await response.json()
     console.log(json);
     
-    if(json.success){navigate("/"); }
+    if(json.success){
+      localStorage.setItem("authToken",json.authToken);
+      localStorage.getItem("authToken");
+      navigate("/"); }
 
   };
 

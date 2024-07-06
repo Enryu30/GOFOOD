@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken'); //  jwt.sign(data,key);
+const jwtSecret = "kamehamehakatoomjutsuboshi";
 const { body, validationResult } = require("express-validator");
 
 router.post(
@@ -12,10 +15,14 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
+    const salt =await bcrypt.genSalt(10);
+    const secPassword =await bcrypt.hash(req.body.password, salt);
+    console.log(secPassword);
+
     try {
       await User.create({
         name: req.body.name,
-        password: req.body.password,
+        password: secPassword,
         email: req.body.email,
         location: req.body.location,
       });
@@ -36,9 +43,20 @@ router.post("/login",async(req,res)=>{
          console.log(user);
 
          if(user){
-                if(req.body.password==user.password){
+
+                  const legit= await bcrypt.compare(req.body.password,user.password);
+                if(legit){
+                  
+                  const data={
+                    user:{
+                        id:user.id     // we have to sent a unique key of the user to generate auth token.
+                    }
+                  }
+
+                  const authToken = jwt.sign(data,jwtSecret);
+                  console.log(authToken);
                   console.log("User exists");
-                  res.json({ success: true });
+                  res.json({ success: true, authToken:authToken });
                 }
 
          }
