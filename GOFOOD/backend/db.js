@@ -8,16 +8,27 @@ const mongoDB=async ()=>{
     await mongoose.connect(mongoURI);
     console.log("Connected to the Database");
     
-    const model =  mongoose.connection.db.collection("food_items");//act like model
+    const foodItemsCollection = mongoose.connection.db.collection("food_items");
+    const foodCategoryCollection = mongoose.connection.db.collection("food_category");
 
-    const data = model.find();
-/* 
-    data.forEach((item,key)=>{
-      console.log(item.name);
-    }) */
+    const foodItemsCursor = foodItemsCollection.find();
+    const foodCategoryCursor = foodCategoryCollection.find();
 
-  } catch (err) {
-    console.log("err");
+    const foodItems = [];
+    await foodItemsCursor.forEach(item => {
+      foodItems.push(item);
+    });
+
+    const foodCategories = [];
+    await foodCategoryCursor.forEach(catData => {
+      foodCategories.push(catData);
+    });
+
+    global.food_items = foodItems;
+    global.foodCategory = foodCategories;
+
+  } catch (error) {
+    console.error("Database connection or data fetching error: ", error);
   }
 
 }

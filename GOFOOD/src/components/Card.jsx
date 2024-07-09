@@ -2,17 +2,20 @@ import React from 'react'
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const Card = () => {
+export const Card = ({foodDetails}) => {
+
+  let options = foodDetails.options[0];
+  let priceOptions = Object.keys(options);
+
+
   return (
     <div>
       <div>
         <div className=" mt-3" style={{width: "18rem",textAlign:"center",borderStyle:"solid"}}>
-          <img className="card-img-top" src="/cereal.jpg" alt="Card image cap" />
+          <img className="card-img-top" src={foodDetails.img} alt="Card image cap" style={{height:"120px", objectFit:"fill"}}/>
           <div className="card-body">
-            <h5 className="card-title m-2">Card title</h5>
-            <p className="card-text ">
-              IMportant text
-            </p>
+            <h5 className="card-title m-2">{foodDetails.name}</h5>
+            
             <div className="  container ">
                 <select className="m-2 h-100 bg-success">
 
@@ -24,8 +27,9 @@ export const Card = () => {
 
                 </select> 
                 <select className="m-2 h-100 bg-success">
-                   <option value="half">Half</option>
-                   <option value="full">full</option>
+                   {priceOptions.map((data)=>{
+                    return <option key={data} value={data}>{data}</option>
+                   })}
                 </select>
 
 

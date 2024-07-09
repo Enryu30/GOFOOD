@@ -33,3 +33,245 @@ Lec2:     -setting up react app,
                   If there is  a server and a get method is made for the home router then that thing will work.
 
 
+
+Lec 3: import in app.jsx, import link in navbar=> used where <a> tag is used.     
+      -routes mentioned in app.jsx. IF / then home,
+      - created card which looks like a dish order
+      -footer 
+      - carousel css= photos that can slide.
+           doesnot work.
+            to make it work copy js and css bootstrpalink.
+            i solved it keep images in public folder hahahaah.
+
+
+      - search bar using div captions, z-index. 
+
+
+
+
+Lec 4: Setup MongoDB Atlas & Importing Data 
+
+      It is no sql, no schema, fast , high volume , scalable dividing data into multiple machines ,bson.
+
+      Kr24lvcMY72xampr   swarat
+
+      create cluster , network access ->allow access from anywhere,
+      click cluster go to collections and create database.
+                   
+
+
+     C:\Users\swara> mongoimport --uri mongodb+srv://swarat:Kr24lvcMY72xampr@cluster0.tclfdjf.mongodb.net/gofoodmern --collection food_items  --jsonArray --file "C:\Users\swara\OneDrive\Desktop\MERN Project Series\GOFOOD\public\foodData2.json"
+ 2024-07-03T12:34:32.784+0530    connected to: mongodb+srv://[**REDACTED**]@cluster0.tclfdjf.mongodb.net/gofoodmern
+ 
+ 
+       paste this link to import the food file that you have on your pc to the database.
+ 
+       -we pushed two files first foodata and food category using above command.
+ 
+ 
+ 
+               =IN this video i learnt how to use mongoatlas. I created an account , database , gave some configurations, added networks. This way cluster was created.
+               -> Now it was time to create database and collections inside of cluster.
+               ->I had files and i wanted all that data to be imported to the cluster, it was in json array format.
+ 
+               =>atlas-cluster-push 
+ 
+ 
+     MongoDB Atlas is a fully managed cloud database service for MongoDB, offering features like automated backups, scalability, and built-in security.
+ 
+ MongoDB Compass is a GUI tool for managing and visualizing MongoDB databases, allowing you to explore data, run queries, and optimize performance easily.
+ 
+ 
+
+
+ After four to five projects i beleive i will be able to create good lifeless and lessinteractive projectts.
+ 
+ 
+ 
+ 
+Lec 5: setting up backend,
+        thunder client, 
+        seperate db file: create f(), export it and import it in index.js
+
+
+        const mongoURI = 'mongodb+srv://swarat:Kr24lvcMY72xampr@cluster0.tclfdjf.mongodb.net/gofoodmern?retryWrites=true&w=majority&appName=Cluster0';
+        
+
+
+        ohh man i understood a thing just now 
+        mongodb = nosql, no schema then why did i create schema bcoz i used mongoose, mongoose allows to create schema.
+              
+
+Lec 6 : how to connect to collections created in mongo atlas without any schema?
+
+
+
+    const model =  mongoose.connection.db.collection("food_items");//act    like model
+
+      const data = model.find();    
+
+       data.forEach((item,key)=>{    
+      console.log(item.name);   
+      })    
+
+    -> export function and require them as object;
+
+    ->db,models, routes
+
+
+    ->dbfile , connected, exported , called inside index.js
+    ->Time to create schema , create dir model, user.js , schema and export model.
+    ->Where will this model be used? So let's say i want to create a user , i made a post request, user hardcoded, it got saved to the data base, i imported the model here.
+    Also used some router stuff.
+
+
+LEC 7: Sign UP and Login page, express validators 
+
+
+    ->EXPRESS VALIDATORS after doing this in create user we created a signup page in screens, object , onchange => set , ONsubmit handlesubmit.
+
+    ->ERROR CORS when trying to send response to the backend. 
+    add a code app.use access control in backennd index.js.
+
+    ->signup page, create user , index.js
+
+    -> loginn page. -> create user backend.
+
+
+
+LEC 8 : # 8 MERN Project Series | JWT Token and Bcrypt.js in React 
+
+        Encryption: Encode , Decode
+        Hash: one way, 
+        JW TOKEN  : Divide into three parts.
+                    Header -> type of hash, type of token
+                    Payload-> the actual data
+                    signature->    
+
+                    Server send auth token when use logs in, now wheneve user makes a request auth token will be sent with it so that server can verify that the user is legit.
+
+        Auth token : storedin cache, server sends it, it can also have expiry                    
+
+    STEPS:
+        npm i bcryptjs jsonwebtoken
+        require it in create user backend.
+        define salt = await bcypt.genSalt(10);
+        let secPassword = await bcrypt.hash(req.body.password, salt);
+
+        IN login backend request: let pwd= bycrypt.compare(req.body.password , user.password);
+
+                TASK ONE COMPLETE.
+
+        -const jwt = require(jsonwebtoken);
+        -const jwtSecret = "string"; why? for signing and creating an auth token.      
+        -before returning success in login route backend we create an object,
+
+        const data={
+            user:{
+                id:userData.id
+            }
+        }     
+         const authToken = jwt.sign(data,jwtSecret);
+         return res.json({success:true , authToken:authToken});    
+
+            above lines of code creates an auth token,
+            what do we need? we need to use jwt.sign pass the data, secret key and then pass this authtoken.
+
+        in frontend login.jsx
+        if (json.success){
+            localStorage.setItem("authToken",json.authToken);
+            console.log(localStorage.getItem("authToken"));
+        }
+
+        - now when we got the logged of value it was different from then one when we created the auth Token but that doesn't mean that it will fail to make request , change in auth token is a part of making the security aspect more strong , both the api can still be verified becoz they are using same jwtSecret key.
+
+
+                 
+Lec 9: Display Database data on React Frontend
+
+
+    IN db.js : const data = await model.find();
+
+                data.forEach((item,key)=>{
+                  global.food_items = item;
+                console.log(global.food_items);
+                })
+
+    In index.js:   
+                app.use("/api",require("./Routes/DisplayData"));    
+
+
+        In routes dir:
+        -create file DisplayData.js  
+        -require express,router.
+        -router.post('/foodData',){
+            console.log(global.food_items);
+            res.send([global]);
+        }
+        catch(err){
+
+        }
+        module.exports = router;
+
+    FIRST TASK : User makes a request /api/fooddata , server should send the whole list of items as a response.
+                ->index, routes, use models in routes but here we used a global thing from db.js.
+
+
+
+
+    In db.js = 
+            -create foodCategory model 
+             -foodCategory.forEach()   inside of data.foreach 
+                global.food_items = data;
+                global.foodCategory= catData;  
+
+    In DisplayData.js :
+            -display category alogn with the items.   
+
+    TASK 2: DISPLAY CATEGORY WITH FOOD ITEMS when user makes fooddata request.  
+
+
+
+
+    In home.jsx : const [ foodCat, setFoodCat]=useStat([]);
+                - use mapping in array
+                - in object forin
+                -const [foodItem, setFoodItem]=useState([]);
+
+                -create a function load data that makes a request to the server on / api/foodData route.
+                - response = await response.json();
+
+                console.log(response[0],response[1]);
+
+                create a useEffect hook that calls the load data function only once
+
+                setFoodCat
+                setFoodItem
+
+
+    TASK 3: Fetch data  in home.jsx  from server 
+
+
+
+    Inh home.jsx:  If food cat exists then display all of its items on the page.  and food items.
+    Try to write the mapping code of food cat and food map of home.jsx.
+    Implement col and row thing in home.jsx.
+    -IN home implement select option thing.
+    -cut all the code of carousel from its file and paste it to home.jsx.
+        create a useState search setSearch    
+
+
+        implement navbar logic code.
+
+
+
+Lec 10: Navbar logic implementation.
+
+         <img className="card-img-top" src={foodDetails.img} alt="Card image cap" style={{height:"120px", objectFit:"fill"}}/>
+
+
+
+
+
+
+

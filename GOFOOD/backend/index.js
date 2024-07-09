@@ -27,6 +27,8 @@ app.get('/',(req,res)=>{
 
 app.use('/api',require("./Routes/CreatUser"));
 
+app.use("/api",require("./Routes/DisplayData"));
+
 app.listen(port,()=>{
   console.log("Server is listening on port" + port);
 })
