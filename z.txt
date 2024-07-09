@@ -269,6 +269,10 @@ Lec 10: Navbar logic implementation.
 
          <img className="card-img-top" src={foodDetails.img} alt="Card image cap" style={{height:"120px", objectFit:"fill"}}/>
 
+        -Designed some navbar.
+        - logic to show whether user is logged in or not: localstorage
+
+        -whole signing and navbar is based on authToken
 
 
 
